@@ -114,87 +114,62 @@ class runnable implements Runnable {
 
    private final Studio studio_;
    private final ImageJConverter ij_converter;
+   private final MontageMaker montager;
+   private final CMMCore mmc;
+
    private Datastore datastore_;
    private Coords datastore_coords_;
    private List<DisplayWindow> mda_displays;
    private Datastore mda_montage;
    private DisplayWindow display = null;
    private DisplayWindow mda_montage_display;
-   private final CMMCore mmc;
    private Coords mda_coords;
    private Image current_image;
    private Metadata metadata;
    private ImagePlus montage;
    private Image montage_image;
+   private ImageStack sim_stack;
+
 //   private ImageProcessor montage_ip;
 
    public runnable(Studio studio) {
       studio_ = studio;
       mmc = studio_.core();
       ij_converter = studio_.data().getImageJConverter();
+      montager = new MontageMaker();
    }
 
-//   private ImagePlus snapMontage(Studio studio_) {
-//      try {
-//         TaggedImage tImg;
-//         ImagePlus montage;
-//         System.out.println("Runnable");
-//         studio_.core().startSequenceAcquisition(9, 0, false);
-//         ImageStack stack = new ImageStack(512, 512);
-//         while (mmc.isSequenceRunning() || mmc.getRemainingImageCount() > 0) {
-//            if (mmc.getRemainingImageCount() > 0) {
-//               tImg = mmc.popNextTaggedImage();
-//               ImageProcessor proc0 = ImageUtils.makeProcessor(tImg);
-//               stack.addSlice(proc0);
-//            }
-//         }
-//         ImagePlus imagestack = new ImagePlus("Stack", stack);
-//         MontageMaker montager = new MontageMaker();
-//         montage = montager.makeMontage2(imagestack, 3, 3, 1.00, 1, 9, 1, 0, false);
-//         return montage;
-//      } catch (Exception ex) {
-//         ex.printStackTrace();
-//         return null;
-//      }
+//   private ImagePlus getMontage() throws Exception {
+////      ImageProcessor current_image_processor = ij_converter.createProcessor(current_image);
+////         a = current_image;
+//
 ////      return montage;
+//
+////         datastore_.putImage(montage_image);
 //   }
-
-
-
-   private ImagePlus getMontage() throws Exception {
-//      ImageProcessor current_image_processor = ij_converter.createProcessor(current_image);
-//         a = current_image;
-      TaggedImage tImg;
-      ImagePlus montage;
-//         ImageUtils imageutils = new ImageUtils();
-      System.out.println("Runnable");
-      ImageStack stack = new ImageStack( 512,  512);
-//      stack.addSlice(current_image_processor);
-      studio_.core().startSequenceAcquisition(9, 0, false);
-      while (mmc.isSequenceRunning() || mmc.getRemainingImageCount() > 0) {
-         if (mmc.getRemainingImageCount() > 0) {
-            tImg = mmc.popNextTaggedImage();
-            ImageProcessor proc0 = ImageUtils.makeProcessor(tImg);
-            stack.addSlice(proc0);
-         }
-      }
-      ImagePlus imagestack = new ImagePlus("Stack", stack);
-      MontageMaker montager = new MontageMaker();
-      montage = montager.makeMontage2(imagestack, 3, 3, 1.00, 1, 9, 1, 0, false);
-//      montage.show();
-//      ImageProcessor montage_ip = montage.getProcessor();
-      return montage;
-
-//         datastore_.putImage(montage_image);
-   }
-
 
    @Override
    public void run() {
       try {
-         montage = getMontage();
+         TaggedImage tImg;
+         //         ImageUtils imageutils = new ImageUtils();
+//         System.out.println("Runnable");
+         ImageStack sim_stack = new ImageStack( 512,  512);
+//      stack.addSlice(current_image_processor);
+         studio_.core().startSequenceAcquisition(9, 0, false);
+         while (mmc.isSequenceRunning() || mmc.getRemainingImageCount() > 0) {
+            if (mmc.getRemainingImageCount() > 0) {
+               tImg = mmc.popNextTaggedImage();
+               ImageProcessor proc0 = ImageUtils.makeProcessor(tImg);
+               sim_stack.addSlice(proc0);
+            }
+         }
+//      montage.show();
+//      ImageProcessor montage_ip = montage.getProcessor();
       } catch (Exception e) {
          e.printStackTrace();
+         montage = null;
+         sim_stack = null;
       }
    }
 
@@ -216,7 +191,6 @@ class runnable implements Runnable {
       System.out.println("DataProviderHasNewImageEvent");
 
       studio_.acquisitions().setPause(true);
-
 //      DataProvider mda_provider = e.getDataProvider();
        mda_coords = e.getCoords();
        current_image = e.getImage();
@@ -224,6 +198,10 @@ class runnable implements Runnable {
       System.out.println(mda_coords);
 ////      studio_.acquisitions().
       try {
+//         sim_stack.addSlice();
+//         current_image.
+         ImagePlus sim_stack_plus = new ImagePlus("Stack", sim_stack);
+         montage = montager.makeMontage2(sim_stack_plus, 3, 3, 1.00, 1, 9, 1, 0, false);
          montage_image = ij_converter.createImage(montage.getProcessor(), mda_coords, metadata);
          mda_montage.putImage(montage_image);
       } catch (IOException ex) {
@@ -231,9 +209,6 @@ class runnable implements Runnable {
       }
       studio_.acquisitions().setPause(false);
    }
-
-
-
 
    @Subscribe
    public void onAcquisitionEndedEvent(AcquisitionEndedEvent e){
@@ -252,31 +227,3 @@ class runnable implements Runnable {
 
    }
 }
-
-
-
-//        Datastore store = studio_.data().createRAMDatastore();
-//        DisplayWindow live = studio_.displays().createDisplay(store);
-//        List<Image> images = studio_.live().snap(false);
-//        System.out.print("imageget");
-//        Image image = images.get(0);
-////      Datastore store = studio_.displays().show(image);
-//        Coords.CoordsBuilder builder = studio_.data().getCoordsBuilder();
-//        builder = builder.time(0).channel(0);
-//        image = image.copyAtCoords(builder.build());
-//        System.out.print("putimage");
-//        try {
-//        store.putImage(image);
-//        } catch (DatastoreFrozenException e) {
-//        e.printStackTrace();
-//        } catch (DatastoreRewriteException e) {
-//        e.printStackTrace();
-//        }
-//        System.out.print("onPluginSelected2");
-//        studio_.logs().logMessage("onPluginSelected");
-//        try {
-//        studio_.logs().logMessage("onPluginSelected");
-//        } catch (Exception ex) {
-//        if (studio_ != null) {
-//        studio_.logs().logError(ex);
-//        }
