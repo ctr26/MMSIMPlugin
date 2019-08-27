@@ -24,6 +24,8 @@ import ij.process.ImageProcessor;
 import mmcorej.CMMCore;
 import mmcorej.MMCoreJ;
 import mmcorej.TaggedImage;
+import org.micromanager.AutofocusPlugin;
+import java.text.ParseException;
 import org.micromanager.MenuPlugin;
 import org.micromanager.Studio;
 
@@ -36,10 +38,16 @@ import org.micromanager.display.DisplayWindow;
 import org.micromanager.events.AcquisitionEndedEvent;
 import org.micromanager.events.AcquisitionStartedEvent;
 import org.micromanager.events.NewDisplayEvent;
+import org.micromanager.internal.utils.AutofocusBase;
+import org.micromanager.internal.utils.MMException;
+import org.micromanager.internal.utils.NumberUtils;
+import org.micromanager.internal.utils.PropertyItem;
 import org.micromanager.internal.utils.imageanalysis.ImageUtils;
+import org.micromanager.quickaccess.SimpleButtonPlugin;
 import org.scijava.plugin.Plugin;
 import org.scijava.plugin.SciJavaPlugin;
 
+import javax.swing.*;
 import java.awt.peer.ComponentPeer;
 import java.io.IOException;
 import java.util.Iterator;
@@ -51,6 +59,7 @@ import java.util.List;
  * @author nico
  */
 @Plugin(type = MenuPlugin.class)
+
 public class MMSIMPlugin implements MenuPlugin, SciJavaPlugin {
 
    private Studio studio_;
@@ -58,6 +67,26 @@ public class MMSIMPlugin implements MenuPlugin, SciJavaPlugin {
    static private final String COPYRIGHT_NOTICE = "Copyright by UCSF, 2015-2017";
    static private final String DESCRIPTION = "MMSIMPlugin";
    static private final String NAME = "MMSIMPlugin";
+
+   static final private String SIM_IMAGES = "SIM Images";
+   static final private String SIM_MODE = "SIM Mode";
+   static final private String MONTAGE_ROW = "Montage Rows";
+   static final private String MONTAGE_COLUMN = "Montage Columns";
+
+   private int simmode = 0;
+   private int simages = 9;
+   private int montage_rows = 3;
+   private int montage_columns = 3;
+   private Runnable runnable;
+
+
+//   MMSIMPlugin() {
+////      this.createProperty(SIM_MODE, NumberUtils.intToDisplayString(simmode));
+////      super.createProperty(SIM_IMAGES, NumberUtils.intToDisplayString(simages));
+////      super.createProperty(MONTAGE_ROW, NumberUtils.intToDisplayString(montage_rows));
+////      super.createProperty(MONTAGE_COLUMN, NumberUtils.intToDisplayString(montage_columns));
+//
+//   }
 
    @Override
    public void setContext(Studio studio) {
@@ -71,20 +100,20 @@ public class MMSIMPlugin implements MenuPlugin, SciJavaPlugin {
 
    @Override
    public void onPluginSelected() {
-         try {
-            //Add GUI Here
-            Runnable runnable = new runnable(studio_);
-            studio_.events().registerForEvents(runnable);
-            studio_.acquisitions().attachRunnable(-1,-1,-1,-1, runnable);
-            System.out.println(studio_);
+      try {
+         //Add GUI Here
+         Runnable runnable = new runnable(studio_);
+         studio_.events().registerForEvents(runnable);
+         studio_.acquisitions().attachRunnable(-1, -1, -1, -1, runnable);
+         System.out.println(studio_);
 //            SIMode simmode = new SIMode(studio_);
 //            studio_.events().registerForEvents(simmode);
-         } catch (Exception ex) {
-            if (studio_ != null) {
-               studio_.logs().logError(ex);
-            }
+      } catch (Exception ex) {
+         if (studio_ != null) {
+            studio_.logs().logError(ex);
          }
       }
+   }
 
    //   }
 //}
@@ -107,135 +136,40 @@ public class MMSIMPlugin implements MenuPlugin, SciJavaPlugin {
    public String getVersion() {
       return VERSION_INFO;
    }
-
-
-}
-
-class runnable implements Runnable {
-   int SIMMAGES = 9;
-   private final Studio studio_;
-   private final ImageJConverter ij_converter;
-   private final MontageMaker montager;
-   private final CMMCore mmc;
-
-   private Datastore datastore_;
-   private Coords datastore_coords_;
-   private List<DisplayWindow> mda_displays;
-   private Datastore mda_montage;
-   private DisplayWindow display = null;
-   private DisplayWindow mda_montage_display;
-   private Coords mda_coords;
-   private Image current_image;
-   private Metadata metadata;
-   private ImagePlus montage;
-   private Image montage_image;
-   private ImageStack sim_stack;
-
-//   private ImageProcessor montage_ip;
-
-   public runnable(Studio studio) {
-      studio_ = studio;
-      mmc = studio_.core();
-      ij_converter = studio_.data().getImageJConverter();
-      montager = new MontageMaker();
-   }
-
-//   private ImagePlus getMontage() throws Exception {
-////      ImageProcessor current_image_processor = ij_converter.createProcessor(current_image);
-////         a = current_image;
 //
-////      return montage;
+//   @Override
+//   public void applySettings() {
+//      try {
+//         simmode = NumberUtils.displayStringToInt(getPropertyValue(SIM_MODE));
+//         simages = NumberUtils.displayStringToInt(getPropertyValue(SIM_IMAGES));
+//         montage_rows = NumberUtils.displayStringToInt(getPropertyValue(MONTAGE_ROW));
+//         montage_columns = NumberUtils.displayStringToInt(getPropertyValue(MONTAGE_COLUMN));
+//         if(simmode==1){
+//            runnable = new runnable(studio_);
+//            studio_.events().registerForEvents(runnable);
+//            studio_.acquisitions().attachRunnable(-1, -1, -1, -1, runnable);
+//         }else{
+//            runnable =null;
+//         }
 //
-////         datastore_.putImage(montage_image);
+////         cropFactor = clip(0.01, cropFactor, 1.0);
+////         channel = getPropertyValue(CHANNEL);
+////         exposure = NumberUtils.displayStringToDouble(getPropertyValue(EXPOSURE));
+////         fftLowerCutoff = NumberUtils.displayStringToDouble(getPropertyValue(FFT_LOWER_CUTOFF));
+////         fftLowerCutoff = clip(0.0, fftLowerCutoff, 100.0);
+////         fftUpperCutoff = NumberUtils.displayStringToDouble(getPropertyValue(FFT_UPPER_CUTOFF));
+////         fftUpperCutoff = clip(0.0, fftUpperCutoff, 100.0);
+////         show = getPropertyValue(SHOW_IMAGES);
+////         scoringMethod = getPropertyValue(SCORING_METHOD);
+//
+//      } catch (MMException | ParseException ex) {
+//         studio_.logs().logError(ex);
+//      }
+//   }
+//   @Override
+//   public void saveSettings() {
+//
 //   }
 
-   @Override
-   public void run() {
-      try {
-         TaggedImage tImg;
-         //         ImageUtils imageutils = new ImageUtils();
-//         System.out.println("Runnable");
-         sim_stack = new ImageStack( 512,  512);
-//      stack.addSlice(current_image_processor);
-         studio_.core().startSequenceAcquisition(SIMMAGES-1, 0, false);
-         while (mmc.isSequenceRunning() || mmc.getRemainingImageCount() > 0) {
-            if (mmc.getRemainingImageCount() > 0) {
-               tImg = mmc.popNextTaggedImage();
-               ImageProcessor proc0 = ImageUtils.makeProcessor(tImg);
-               sim_stack.addSlice(proc0);
-            }
-         }
-//      montage.show();
-//      ImageProcessor montage_ip = montage.getProcessor();
-      } catch (Exception e) {
-         e.printStackTrace();
-         montage = null;
-         sim_stack = null;
-      }
-   }
-
-   @Subscribe
-   public void onAcquisitionStarted(AcquisitionStartedEvent e) {
-      datastore_ = e.getDatastore();
-      datastore_.registerForEvents(this);
-      System.out.println("AcquisitionStartedEvent");
-      SequenceSettings settings_ = studio_.acquisitions().getAcquisitionSettings();
-      SummaryMetadata summarymetadata = studio_.acquisitions().generateSummaryMetadata();
-      mda_montage = studio_.data().createRAMDatastore();
-      mda_montage_display = studio_.getDisplayManager().createDisplay(mda_montage);
-
-   }
-
-   @Subscribe
-   public void onDataProviderHasNewImageEvent(DataProviderHasNewImageEvent e){
-
-      System.out.println("DataProviderHasNewImageEvent");
-
-      studio_.acquisitions().setPause(true);
-//      DataProvider mda_provider = e.getDataProvider();
-       mda_coords = e.getCoords();
-       current_image = e.getImage();
-       metadata = current_image.getMetadata();
-      System.out.println(mda_coords);
-////      studio_.acquisitions().
-      try {
-         ImageProcessor current_image_processor = ij_converter.createProcessor(current_image);
-         sim_stack.addSlice(current_image_processor);
-         ImagePlus sim_stack_plus = new ImagePlus("Stack", sim_stack);
-         montage = montager.makeMontage2(sim_stack_plus, SIMMAGES/3, SIMMAGES/3, 1.00, 1, SIMMAGES, 1, 0, false);
-         montage_image = ij_converter.createImage(montage.getProcessor(), mda_coords, metadata);
-         mda_montage.putImage(montage_image);
-      } catch (IOException ex) {
-         ex.printStackTrace();
-      }
-      studio_.acquisitions().setPause(false);
-   }
-
-   @Subscribe
-   public void onAcquisitionEndedEvent(AcquisitionEndedEvent e){
-//		DataProvider new_provider = e.getDisplay().getDataProvider();
-      String acquisition_path = datastore_.getSavePath();
-//      studio_.acquisitions().getAcquisitionSettings().;
-      System.out.println(acquisition_path);
-      if(acquisition_path!=null){
-         try {
-            //TODO determine savemode and mimic
-            mda_montage.save(Datastore.SaveMode.MULTIPAGE_TIFF,acquisition_path.concat("_SIM"));
-         } catch (IOException ex) {
-            ex.printStackTrace();
-         }
-      }
-      System.out.println("AcquisitionEndedEvent");
-//      System.out.println(mda_montage);
-//      mda_montage.setSavePath("/Users/craggles/Desktop");
-//      try {
-////         datastore_coords_ = datastore_.getMaxIndices();
-////         current_image = datastore_.getImage(datastore_coords_);
-////         mda_montage.putImage(current_image);
-////         mda_montage.save(Datastore.SaveMode.MULTIPAGE_TIFF,"/Users/craggles/Desktop/ok/");
-//      } catch (IOException ex) {
-//         ex.printStackTrace();
-//      }
-
-   }
 }
+
