@@ -7,8 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ed4f4b3-79df-497d-a5b2-ba63b947df22" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/MMSIMPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/MMSIMPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/npl/biomet/mmsim/MMSIMPlugin.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/npl/biomet/mmsim/MMSIMPlugin.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/org/npl/biomet/mmsim/runnable.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/npl/biomet/mmsim/runnable.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -38,8 +38,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/MMSIMPlugin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="568">
-              <caret line="216" column="69" lean-forward="true" selection-start-line="216" selection-start-column="69" selection-end-line="216" selection-end-column="69" />
+            <state relative-caret-position="173">
+              <caret line="200" column="35" lean-forward="true" selection-start-line="200" selection-start-column="35" selection-end-line="200" selection-end-column="35" />
               <folding>
                 <element signature="e#1699#1700#0" expanded="true" />
                 <element signature="e#1728#1729#0" expanded="true" />
@@ -178,12 +178,14 @@
       <find>display</find>
       <find>mda_coords</find>
       <find>print</find>
-      <find>mda_montage</find>
       <find>create</find>
       <find>mda_provider</find>
       <find>montage_ip</find>
       <find>montage</find>
       <find>runnable(</find>
+      <find>mda_montage</find>
+      <find>settings_</find>
+      <find>summarymetadata</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -416,8 +418,8 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Messages" order="10" weight="0.3299363" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32953367" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.32953367" />
       <window_info anchor="right" id="Coverage" side_tool="true" weight="0.3297568" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -428,6 +430,9 @@
       <window_info anchor="right" id="Capture Analysis" order="6" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
     </layout>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/MMSIMPlugin$MMJ.ic" NAME="MMJ Coverage Results" MODIFIED="1566588138683" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
@@ -552,8 +557,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/MMSIMPlugin.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="568">
-          <caret line="216" column="69" lean-forward="true" selection-start-line="216" selection-start-column="69" selection-end-line="216" selection-end-column="69" />
+        <state relative-caret-position="173">
+          <caret line="200" column="35" lean-forward="true" selection-start-line="200" selection-start-column="35" selection-end-line="200" selection-end-column="35" />
           <folding>
             <element signature="e#1699#1700#0" expanded="true" />
             <element signature="e#1728#1729#0" expanded="true" />

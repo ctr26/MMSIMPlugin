@@ -215,7 +215,7 @@ class runnable implements Runnable {
             if (mmc.getRemainingImageCount() > 0) {
                tImg = mmc.popNextTaggedImage();
                ImageProcessor proc0 = ImageUtils.makeProcessor(tImg);
-               stack.addSlice(ImageUtils.makeProcessor(tImg));
+               stack.addSlice(proc0);
             }
          }
          ImagePlus imagestack = new ImagePlus("Stack", stack);
