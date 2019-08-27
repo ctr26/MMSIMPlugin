@@ -74,7 +74,7 @@ public class MMSIMPlugin implements MenuPlugin, SciJavaPlugin {
          try {
             Runnable runnable = new runnable(studio_);
             studio_.events().registerForEvents(runnable);
-            studio_.acquisitions().attachRunnable(-1,-1,-1,-1, runnable);
+//            studio_.acquisitions().attachRunnable(-1,-1,-1,-1, runnable);
             System.out.println(studio_);
 //            SIMode simmode = new SIMode(studio_);
 //            studio_.events().registerForEvents(simmode);
@@ -134,36 +134,36 @@ class runnable implements Runnable {
       mda_montage = studio_.data().createRAMDatastore();
    }
 
-   private ImagePlus snapMontage(Studio studio_) {
-      try {
-         TaggedImage tImg;
-         ImagePlus montage;
-         System.out.println("Runnable");
-         studio_.core().startSequenceAcquisition(9, 0, false);
-         ImageStack stack = new ImageStack(512, 512);
-         while (mmc.isSequenceRunning() || mmc.getRemainingImageCount() > 0) {
-            if (mmc.getRemainingImageCount() > 0) {
-               tImg = mmc.popNextTaggedImage();
-               ImageProcessor proc0 = ImageUtils.makeProcessor(tImg);
-               stack.addSlice(proc0);
-            }
-         }
-         ImagePlus imagestack = new ImagePlus("Stack", stack);
-         MontageMaker montager = new MontageMaker();
-         montage = montager.makeMontage2(imagestack, 3, 3, 1.00, 1, 9, 1, 0, false);
-         return montage;
-      } catch (Exception ex) {
-         ex.printStackTrace();
-         return null;
-      }
-//      return montage;
-   }
+//   private ImagePlus snapMontage(Studio studio_) {
+//      try {
+//         TaggedImage tImg;
+//         ImagePlus montage;
+//         System.out.println("Runnable");
+//         studio_.core().startSequenceAcquisition(9, 0, false);
+//         ImageStack stack = new ImageStack(512, 512);
+//         while (mmc.isSequenceRunning() || mmc.getRemainingImageCount() > 0) {
+//            if (mmc.getRemainingImageCount() > 0) {
+//               tImg = mmc.popNextTaggedImage();
+//               ImageProcessor proc0 = ImageUtils.makeProcessor(tImg);
+//               stack.addSlice(proc0);
+//            }
+//         }
+//         ImagePlus imagestack = new ImagePlus("Stack", stack);
+//         MontageMaker montager = new MontageMaker();
+//         montage = montager.makeMontage2(imagestack, 3, 3, 1.00, 1, 9, 1, 0, false);
+//         return montage;
+//      } catch (Exception ex) {
+//         ex.printStackTrace();
+//         return null;
+//      }
+////      return montage;
+//   }
 
 
    @Override
    public void run() {
       try {
-         montage_ip = snapMontage(studio_).getProcessor();
+//         montage_ip = snapMontage(studio_).getProcessor();
       } catch (Exception e) {
          e.printStackTrace();
       }
@@ -193,6 +193,9 @@ class runnable implements Runnable {
    public void onDataProviderHasNewImageEvent(DataProviderHasNewImageEvent e){
 
       System.out.println("DataProviderHasNewImageEvent");
+
+      studio_.acquisitions().setPause(true);
+
       mda_provider = e.getDataProvider();
       mda_coords = e.getCoords();
       current_image = e.getImage();
@@ -200,19 +203,32 @@ class runnable implements Runnable {
       System.out.println(mda_coords);
 ////      studio_.acquisitions().
       try {
+         ImageProcessor current_image_processor = ij_converter.createProcessor(current_image);
+//         a = current_image;
+         TaggedImage tImg;
+         ImagePlus montage;
+         System.out.println("Runnable");
+         ImageStack stack = new ImageStack( current_image_processor.getWidth(),  current_image_processor.getHeight());
+         stack.addSlice(current_image_processor);
+         studio_.core().startSequenceAcquisition(8, 0, false);
+         while (mmc.isSequenceRunning() || mmc.getRemainingImageCount() > 0) {
+            if (mmc.getRemainingImageCount() > 0) {
+               tImg = mmc.popNextTaggedImage();
+               ImageProcessor proc0 = ImageUtils.makeProcessor(tImg);
+               stack.addSlice(ImageUtils.makeProcessor(tImg));
+            }
+         }
+         ImagePlus imagestack = new ImagePlus("Stack", stack);
+         MontageMaker montager = new MontageMaker();
+         montage = montager.makeMontage2(imagestack, 3, 3, 1.00, 1, 9, 1, 0, false);
+         montage_ip = montage.getProcessor();
          Image montage_image = ij_converter.createImage(montage_ip, mda_coords, metadata);
          mda_montage.putImage(montage_image);
 //         datastore_.putImage(montage_image);
       } catch (Exception ex) {
          ex.printStackTrace();
       }
-
-
-//			montage.show();
-
-//      if(display==null) {
-//         display = studio_.getDisplayManager().createDisplay(mda_provider);
-//      }
+      studio_.acquisitions().setPause(false);
    }
 
    @Subscribe
