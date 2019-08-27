@@ -72,6 +72,7 @@ public class MMSIMPlugin implements MenuPlugin, SciJavaPlugin {
    @Override
    public void onPluginSelected() {
          try {
+            //Add GUI Here
             Runnable runnable = new runnable(studio_);
             studio_.events().registerForEvents(runnable);
             studio_.acquisitions().attachRunnable(-1,-1,-1,-1, runnable);
@@ -213,8 +214,19 @@ class runnable implements Runnable {
    @Subscribe
    public void onAcquisitionEndedEvent(AcquisitionEndedEvent e){
 //		DataProvider new_provider = e.getDisplay().getDataProvider();
+      String acquisition_path = datastore_.getSavePath();
+//      studio_.acquisitions().getAcquisitionSettings().;
+      System.out.println(acquisition_path);
+      if(acquisition_path!=null){
+         try {
+            //TODO determine savemode and mimic
+            mda_montage.save(Datastore.SaveMode.MULTIPAGE_TIFF,acquisition_path.concat("_SIM"));
+         } catch (IOException ex) {
+            ex.printStackTrace();
+         }
+      }
       System.out.println("AcquisitionEndedEvent");
-      System.out.println(mda_montage);
+//      System.out.println(mda_montage);
 //      mda_montage.setSavePath("/Users/craggles/Desktop");
 //      try {
 ////         datastore_coords_ = datastore_.getMaxIndices();
