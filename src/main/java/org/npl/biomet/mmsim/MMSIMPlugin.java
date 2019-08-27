@@ -124,6 +124,7 @@ class runnable implements Runnable {
    private Coords mda_coords;
    private Image current_image;
    private Metadata metadata;
+   private ImagePlus montage;
    private Image montage_image;
 //   private ImageProcessor montage_ip;
 
@@ -160,8 +161,8 @@ class runnable implements Runnable {
 
 
 
-   public Image getMontage() throws Exception {
-      ImageProcessor current_image_processor = ij_converter.createProcessor(current_image);
+   private ImagePlus getMontage() throws Exception {
+//      ImageProcessor current_image_processor = ij_converter.createProcessor(current_image);
 //         a = current_image;
       TaggedImage tImg;
       ImagePlus montage;
@@ -180,10 +181,9 @@ class runnable implements Runnable {
       ImagePlus imagestack = new ImagePlus("Stack", stack);
       MontageMaker montager = new MontageMaker();
       montage = montager.makeMontage2(imagestack, 3, 3, 1.00, 1, 9, 1, 0, false);
-      montage.show();
-      ImageProcessor montage_ip = montage.getProcessor();
-      montage_image = ij_converter.createImage(montage_ip, mda_coords, metadata);
-      return montage_image;
+//      montage.show();
+//      ImageProcessor montage_ip = montage.getProcessor();
+      return montage;
 
 //         datastore_.putImage(montage_image);
    }
@@ -192,7 +192,7 @@ class runnable implements Runnable {
    @Override
    public void run() {
       try {
-         getMontage();
+         montage = getMontage();
       } catch (Exception e) {
          e.printStackTrace();
       }
@@ -223,7 +223,12 @@ class runnable implements Runnable {
        metadata = current_image.getMetadata();
       System.out.println(mda_coords);
 ////      studio_.acquisitions().
-      mda_montage.putImage(montage_image);
+      try {
+         montage_image = ij_converter.createImage(montage.getProcessor(), mda_coords, metadata);
+         mda_montage.putImage(montage_image);
+      } catch (IOException ex) {
+         ex.printStackTrace();
+      }
       studio_.acquisitions().setPause(false);
    }
 
