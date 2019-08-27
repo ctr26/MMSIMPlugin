@@ -74,7 +74,7 @@ public class MMSIMPlugin implements MenuPlugin, SciJavaPlugin {
          try {
             Runnable runnable = new runnable(studio_);
             studio_.events().registerForEvents(runnable);
-//            studio_.acquisitions().attachRunnable(-1,-1,-1,-1, runnable);
+            studio_.acquisitions().attachRunnable(-1,-1,-1,-1, runnable);
             System.out.println(studio_);
 //            SIMode simmode = new SIMode(studio_);
 //            studio_.events().registerForEvents(simmode);
@@ -114,24 +114,23 @@ class runnable implements Runnable {
 
    private final Studio studio_;
    private final ImageJConverter ij_converter;
-   private SequenceSettings settings_;
    private Datastore datastore_;
    private Coords datastore_coords_;
    private List<DisplayWindow> mda_displays;
-   private DataProvider mda_provider;
-   private Coords mda_coords;
    private Datastore mda_montage;
-   private Image current_image;
    private DisplayWindow display = null;
-   DisplayWindow mda_montage_display;
+   private DisplayWindow mda_montage_display;
    private final CMMCore mmc;
-   private ImageProcessor montage_ip;
+   private Coords mda_coords;
+   private Image current_image;
+   private Metadata metadata;
+   private Image montage_image;
+//   private ImageProcessor montage_ip;
 
    public runnable(Studio studio) {
       studio_ = studio;
       mmc = studio_.core();
       ij_converter = studio_.data().getImageJConverter();
-      mda_montage = studio_.data().createRAMDatastore();
    }
 
 //   private ImagePlus snapMontage(Studio studio_) {
@@ -160,10 +159,40 @@ class runnable implements Runnable {
 //   }
 
 
+
+   public Image getMontage() throws Exception {
+      ImageProcessor current_image_processor = ij_converter.createProcessor(current_image);
+//         a = current_image;
+      TaggedImage tImg;
+      ImagePlus montage;
+//         ImageUtils imageutils = new ImageUtils();
+      System.out.println("Runnable");
+      ImageStack stack = new ImageStack( 512,  512);
+//      stack.addSlice(current_image_processor);
+      studio_.core().startSequenceAcquisition(9, 0, false);
+      while (mmc.isSequenceRunning() || mmc.getRemainingImageCount() > 0) {
+         if (mmc.getRemainingImageCount() > 0) {
+            tImg = mmc.popNextTaggedImage();
+            ImageProcessor proc0 = ImageUtils.makeProcessor(tImg);
+            stack.addSlice(proc0);
+         }
+      }
+      ImagePlus imagestack = new ImagePlus("Stack", stack);
+      MontageMaker montager = new MontageMaker();
+      montage = montager.makeMontage2(imagestack, 3, 3, 1.00, 1, 9, 1, 0, false);
+      montage.show();
+      ImageProcessor montage_ip = montage.getProcessor();
+      montage_image = ij_converter.createImage(montage_ip, mda_coords, metadata);
+      return montage_image;
+
+//         datastore_.putImage(montage_image);
+   }
+
+
    @Override
    public void run() {
       try {
-//         montage_ip = snapMontage(studio_).getProcessor();
+         getMontage();
       } catch (Exception e) {
          e.printStackTrace();
       }
@@ -171,20 +200,12 @@ class runnable implements Runnable {
 
    @Subscribe
    public void onAcquisitionStarted(AcquisitionStartedEvent e) {
-//      SequenceSettings settings_;
-//      datastore_ = null; datastore_coords_ = null;
-//      mda_displays = null;
-//      datastore_coords_ = null;
-//      mda_coords = null;
-//      mda_montage =null;
-//      current_image = null;
-//      display = null;
-
       datastore_ = e.getDatastore();
       datastore_.registerForEvents(this);
       System.out.println("AcquisitionStartedEvent");
-      settings_ = studio_.acquisitions().getAcquisitionSettings();
+      SequenceSettings settings_ = studio_.acquisitions().getAcquisitionSettings();
       SummaryMetadata summarymetadata = studio_.acquisitions().generateSummaryMetadata();
+      mda_montage = studio_.data().createRAMDatastore();
       mda_montage_display = studio_.getDisplayManager().createDisplay(mda_montage);
 
    }
@@ -196,40 +217,18 @@ class runnable implements Runnable {
 
       studio_.acquisitions().setPause(true);
 
-      mda_provider = e.getDataProvider();
-      mda_coords = e.getCoords();
-      current_image = e.getImage();
-      Metadata metadata = current_image.getMetadata();
+//      DataProvider mda_provider = e.getDataProvider();
+       mda_coords = e.getCoords();
+       current_image = e.getImage();
+       metadata = current_image.getMetadata();
       System.out.println(mda_coords);
 ////      studio_.acquisitions().
-      try {
-         ImageProcessor current_image_processor = ij_converter.createProcessor(current_image);
-//         a = current_image;
-         TaggedImage tImg;
-         ImagePlus montage;
-         System.out.println("Runnable");
-         ImageStack stack = new ImageStack( current_image_processor.getWidth(),  current_image_processor.getHeight());
-         stack.addSlice(current_image_processor);
-         studio_.core().startSequenceAcquisition(8, 0, false);
-         while (mmc.isSequenceRunning() || mmc.getRemainingImageCount() > 0) {
-            if (mmc.getRemainingImageCount() > 0) {
-               tImg = mmc.popNextTaggedImage();
-               ImageProcessor proc0 = ImageUtils.makeProcessor(tImg);
-               stack.addSlice(ImageUtils.makeProcessor(tImg));
-            }
-         }
-         ImagePlus imagestack = new ImagePlus("Stack", stack);
-         MontageMaker montager = new MontageMaker();
-         montage = montager.makeMontage2(imagestack, 3, 3, 1.00, 1, 9, 1, 0, false);
-         montage_ip = montage.getProcessor();
-         Image montage_image = ij_converter.createImage(montage_ip, mda_coords, metadata);
-         mda_montage.putImage(montage_image);
-//         datastore_.putImage(montage_image);
-      } catch (Exception ex) {
-         ex.printStackTrace();
-      }
+      mda_montage.putImage(montage_image);
       studio_.acquisitions().setPause(false);
    }
+
+
+
 
    @Subscribe
    public void onAcquisitionEndedEvent(AcquisitionEndedEvent e){
