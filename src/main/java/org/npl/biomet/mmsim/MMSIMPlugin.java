@@ -111,7 +111,7 @@ public class MMSIMPlugin implements MenuPlugin, SciJavaPlugin {
 }
 
 class runnable implements Runnable {
-
+   int SIMMAGES = 9;
    private final Studio studio_;
    private final ImageJConverter ij_converter;
    private final MontageMaker montager;
@@ -154,9 +154,9 @@ class runnable implements Runnable {
          TaggedImage tImg;
          //         ImageUtils imageutils = new ImageUtils();
 //         System.out.println("Runnable");
-         ImageStack sim_stack = new ImageStack( 512,  512);
+         sim_stack = new ImageStack( 512,  512);
 //      stack.addSlice(current_image_processor);
-         studio_.core().startSequenceAcquisition(9, 0, false);
+         studio_.core().startSequenceAcquisition(SIMMAGES-1, 0, false);
          while (mmc.isSequenceRunning() || mmc.getRemainingImageCount() > 0) {
             if (mmc.getRemainingImageCount() > 0) {
                tImg = mmc.popNextTaggedImage();
@@ -198,10 +198,10 @@ class runnable implements Runnable {
       System.out.println(mda_coords);
 ////      studio_.acquisitions().
       try {
-//         sim_stack.addSlice();
-//         current_image.
+         ImageProcessor current_image_processor = ij_converter.createProcessor(current_image);
+         sim_stack.addSlice(current_image_processor);
          ImagePlus sim_stack_plus = new ImagePlus("Stack", sim_stack);
-         montage = montager.makeMontage2(sim_stack_plus, 3, 3, 1.00, 1, 9, 1, 0, false);
+         montage = montager.makeMontage2(sim_stack_plus, SIMMAGES/3, SIMMAGES/3, 1.00, 1, SIMMAGES, 1, 0, false);
          montage_image = ij_converter.createImage(montage.getProcessor(), mda_coords, metadata);
          mda_montage.putImage(montage_image);
       } catch (IOException ex) {
