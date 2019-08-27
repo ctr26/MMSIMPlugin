@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
       <artifact name="MMSIMPlugin:jar" />
@@ -7,6 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ed4f4b3-79df-497d-a5b2-ba63b947df22" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/runnable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/MMSIMPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/MMSIMPlugin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/org/npl/biomet/mmsim/runnable.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/npl/biomet/mmsim/runnable.class" afterDir="false" />
@@ -35,17 +39,38 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/MMSIMPlugin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="173">
-              <caret line="200" column="35" lean-forward="true" selection-start-line="200" selection-start-column="35" selection-end-line="200" selection-end-column="35" />
+            <state relative-caret-position="920">
+              <caret line="112" selection-start-line="112" selection-end-line="112" />
               <folding>
                 <element signature="e#1699#1700#0" expanded="true" />
                 <element signature="e#1728#1729#0" expanded="true" />
                 <element signature="e#1774#1775#0" expanded="true" />
                 <element signature="e#1796#1797#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/runnable.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="257">
+              <caret line="85" column="37" lean-forward="true" selection-start-line="85" selection-start-column="37" selection-end-line="85" selection-end-column="37" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/../uManager/plugins/Micro-Manager/ij-1.51s.jar!/ij/plugin/MontageMaker.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="227">
+              <caret line="255" selection-start-line="255" selection-end-line="255" />
             </state>
           </provider>
         </entry>
@@ -179,13 +204,16 @@
       <find>mda_coords</find>
       <find>print</find>
       <find>create</find>
-      <find>mda_provider</find>
       <find>montage_ip</find>
-      <find>montage</find>
       <find>runnable(</find>
       <find>mda_montage</find>
       <find>settings_</find>
       <find>summarymetadata</find>
+      <find>montage</find>
+      <find>mda_montage_display</find>
+      <find>createDisplay</find>
+      <find>current_image</find>
+      <find>mda_provider</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -203,6 +231,7 @@
         <option value="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/DisplayAboutToShowEvent.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/SIMode.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/MMSIMPlugin.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/runnable.java" />
       </list>
     </option>
   </component>
@@ -311,6 +340,7 @@
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="configurable.group.language" />
   </component>
   <component name="RecentsManager">
@@ -557,13 +587,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/MMSIMPlugin.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="173">
-          <caret line="200" column="35" lean-forward="true" selection-start-line="200" selection-start-column="35" selection-end-line="200" selection-end-column="35" />
+        <state relative-caret-position="920">
+          <caret line="112" selection-start-line="112" selection-end-line="112" />
           <folding>
             <element signature="e#1699#1700#0" expanded="true" />
             <element signature="e#1728#1729#0" expanded="true" />
             <element signature="e#1774#1775#0" expanded="true" />
             <element signature="e#1796#1797#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../uManager/plugins/Micro-Manager/ij-1.51s.jar!/ij/plugin/MontageMaker.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="227">
+          <caret line="255" selection-start-line="255" selection-end-line="255" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/runnable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="257">
+          <caret line="85" column="37" lean-forward="true" selection-start-line="85" selection-start-column="37" selection-end-line="85" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
