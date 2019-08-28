@@ -2,3 +2,6 @@
 *.class
 .idea/artifacts
 target
+target/classes
+target
+.idea
