@@ -19,7 +19,7 @@ import org.micromanager.internal.utils.imageanalysis.ImageUtils;
 import java.io.IOException;
 import java.util.List;
 
-public class runnable implements Runnable {
+public class simRunnable implements Runnable {
 	int SIMMAGES = 9;
 	private final Studio studio_;
 	private final ImageJConverter ij_converter;
@@ -41,7 +41,7 @@ public class runnable implements Runnable {
 
 //   private ImageProcessor montage_ip;
 
-	public runnable(Studio studio) {
+	public simRunnable(Studio studio) {
 		studio_ = studio;
 		mmc = studio_.core();
 		ij_converter = studio_.data().getImageJConverter();
@@ -63,6 +63,7 @@ public class runnable implements Runnable {
 			TaggedImage tImg;
 			//         ImageUtils imageutils = new ImageUtils();
 //         System.out.println("Runnable");
+			//%TODO FIX WITHS AND HEIGHTS
 			sim_stack = new ImageStack( 512,  512);
 //      stack.addSlice(current_image_processor);
 			studio_.core().startSequenceAcquisition(SIMMAGES-1, 0, false);
