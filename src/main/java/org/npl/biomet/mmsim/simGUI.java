@@ -12,14 +12,21 @@ import org.micromanager.Studio;
 import org.micromanager.UserProfile;
 import org.micromanager.acquisition.SequenceSettings;
 import org.micromanager.data.*;
+import org.micromanager.data.Image;
 import org.micromanager.display.DisplayWindow;
 import org.micromanager.events.AcquisitionEndedEvent;
 import org.micromanager.events.AcquisitionStartedEvent;
 import org.micromanager.internal.utils.imageanalysis.ImageUtils;
 import org.micromanager.propertymap.MutablePropertyMapView;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -52,6 +59,24 @@ public class simGUI extends javax.swing.JFrame implements Runnable {
 	private Image montage_image;
 	private ImageStack sim_stack;
 
+	private JToggleButton liveModeButton;
+	String liveModeButtonOnText = "Stop SIM Mode";
+	String liveModeButtonOffText = "SIM Mode";
+	private JComboBox modeComboBox;
+	private JFormattedTextField SIMimagesTextField;
+	private JFormattedTextField montageRowsTextField;
+	private JFormattedTextField montageColsTextField;
+	private JToggleButton buttonSimMode;
+	private JPanel topPanel;
+	private JComboBox optionMode;
+	private JPanel masterPanel;
+	private JPanel simagesPanel;
+	private JPanel montageRowsPanel;
+	private JPanel montageColsPanel;
+
+	String comboItems[] = {"Montage mode", "MM Automatic"};
+
+
 	public simGUI(Studio studio) {
 		// Build GUI
 		studio_ = studio;
@@ -59,12 +84,14 @@ public class simGUI extends javax.swing.JFrame implements Runnable {
 		ij_converter = studio_.data().getImageJConverter();
 		montager = new MontageMaker();
 		user_profile = studio_.profile();
+		main();
 
-		getUserData(user_profile);
 
 //		Runnable runnable = new simRunnable(studio_);
-		studio_.events().registerForEvents(this);
-		studio_.acquisitions().attachRunnable(-1, -1, -1, -1, this);
+	}
+	private void main(){
+		getUserData(user_profile);
+		initComponents();
 	}
 
 	private void getUserData(UserProfile user_profile) {
@@ -96,6 +123,93 @@ public class simGUI extends javax.swing.JFrame implements Runnable {
 		System.out.println(updatedSIMProperties.toString());
 	}
 
+	void initComponents(){
+//		new JFrame();
+		Dimension panelSize = masterPanel.getPreferredSize();
+
+		this.setBounds(100, 100, (int) panelSize.getWidth(), (int) panelSize.getHeight());
+		this.setTitle("SIM");
+		this.setContentPane(masterPanel);
+
+//		this.setBounds(masterPanel.getBounds());
+//		this.setBounds(masterPanel.getBounds());
+//		this.setDefaultCloseOperation();
+		this.setVisible(true);
+//		this.getContentPane().setLayout(null);
+
+		ActionListener activeButtonListener = new ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				activeButton(e);
+			}
+		};
+
+//		liveModeButton = new JToggleButton(liveModeButtonOffText);
+//		liveModeButton.addActionListener(activeButtonListener);
+
+		ActionListener settingsListener = new ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				guiSettingsChange(e);
+			}
+		};
+
+//		modeComboBox = new JComboBox(comboItems);
+		//TODO Save mode
+
+		NumberFormat format = NumberFormat.getNumberInstance();
+//
+//		SIMimagesTextField = new JFormattedTextField(format);
+//			SIMimagesTextField.setValue(SIMages);
+//			SIMimagesTextField.addActionListener(settingsListener);
+//
+//		montageRowsTextField = new javax.swing.JFormattedTextField(format);
+//			montageRowsTextField.setValue(SIM_ROWS);
+//			montageRowsTextField.addActionListener(settingsListener);
+//
+//		montageColsTextField = new javax.swing.JFormattedTextField(format);
+//			montageColsTextField.setValue(SIM_COLS);
+//			montageColsTextField.addActionListener(settingsListener);
+//
+
+//		masterPanel = new JPanel();
+//		simagesPanel = new JPanel();
+//		montageRowsPanel = new JPanel();
+//		montageColsPanel = new JPanel();
+//
+//		masterPanel.add(simagesPanel);
+//		masterPanel.add(montageRowsPanel);
+//		masterPanel.add(montageColsPanel);
+//		masterPanel.add(modeComboBox);
+//		masterPanel.add(liveModeButton);
+//
+//		simagesPanel.add(SIMimagesTextField);
+//		montageRowsPanel.add(montageRowsTextField);
+//		montageColsPanel.add(montageColsTextField);
+
+		this.setContentPane(masterPanel);
+		this.setVisible(true);
+	}
+
+	private void cleanup() {
+	}
+
+	private void activeButton(java.awt.event.ActionEvent e) {
+//		e.
+		if(liveModeButton.isSelected()){
+			liveModeButton.setText(liveModeButtonOnText);
+			studio_.events().registerForEvents(this);
+			studio_.acquisitions().attachRunnable(-1, -1, -1, -1, this);
+		}
+		if(!liveModeButton.isSelected()){
+			liveModeButton.setText(liveModeButtonOffText);
+			studio_.events().registerForEvents(this);
+			studio_.acquisitions().attachRunnable(-1, -1, -1, -1, this);
+		}
+	}
+
+	public void guiSettingsChange(java.awt.event.ActionEvent e){
+//		SIMages = SIMimagesTextField.getText()
+
+	}
 
 	@Override
 	public void run() {

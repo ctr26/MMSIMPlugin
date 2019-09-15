@@ -7,28 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ed4f4b3-79df-497d-a5b2-ba63b947df22" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/simGUI.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/simGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/AcquireMultipleRegions.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MMLiveFFTPlugin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/MMLiveFFTPlugin.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/AcquisitionLister.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/DataStoreProviderConverter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/FFTProvider.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/FFTThread.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/FFTViewer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/MMSIMPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/MMSIMPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/SIMode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/runnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/simRunnable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/npl/biomet/mmsim/AcquisitionLister.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/npl/biomet/mmsim/DataStoreProviderConverter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/npl/biomet/mmsim/FFTProvider.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/npl/biomet/mmsim/FFTThread.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/npl/biomet/mmsim/FFTViewer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/npl/biomet/mmsim/MMSIMPlugin.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/npl/biomet/mmsim/MMSIMPlugin.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/npl/biomet/mmsim/SIMode.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/npl/biomet/mmsim/runnable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/simGUI.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/simGUI.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/simGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/simGUI.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -48,7 +29,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/MMSIMPlugin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="219">
+            <state relative-caret-position="372">
               <caret line="104" selection-start-line="104" selection-end-line="104" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -62,10 +43,14 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/simGUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="185">
-              <caret line="29" column="33" lean-forward="true" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="33" />
+            <state relative-caret-position="108">
+              <caret line="127" column="53" selection-start-line="127" selection-start-column="53" selection-end-line="127" selection-end-column="53" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#3680#3681#0" expanded="true" />
+                <element signature="e#3706#3707#0" expanded="true" />
+                <element signature="e#3954#3955#0" expanded="true" />
+                <element signature="e#3985#3986#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -120,6 +105,11 @@
       <find>montage</find>
       <find>runnable(</find>
       <find>montage_ip</find>
+      <find>jbutto</find>
+      <find>liveModeButton</find>
+      <find>initComponents</find>
+      <find>init</find>
+      <find>masterPanel</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -137,6 +127,7 @@
         <option value="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/DisplayAboutToShowEvent.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/SIMode.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/MMSIMPlugin.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/test.form" />
         <option value="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/simGUI.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/simGUI.form" />
       </list>
@@ -194,6 +185,15 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="mmsim" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MMSIMPlugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MMSIMPlugin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="mmsim" type="462c0819:PsiDirectoryNode" />
+              <item name="simGUI" type="e9f4de52:FormNode" />
             </path>
           </expand>
           <select />
@@ -310,7 +310,7 @@
     <frame x="0" y="23" width="1440" height="877" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26323318" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12446352" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -319,15 +319,15 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3299363" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3299363" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3299363" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32953367" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32953367" />
-      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" weight="0.3299363" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32953367" />
-      <window_info anchor="bottom" id="Messages" order="10" weight="0.32866243" />
+      <window_info active="true" anchor="bottom" id="Messages" order="10" visible="true" weight="0.32866243" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -351,9 +351,26 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/DisplayAboutToShowEvent.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/DataStoreProviderConverter.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/SIMode.java" />
+    <entry file="jar:///Library/Java/JavaVirtualMachines/openjdk-12.0.1.jdk/Contents/Home/lib/src.zip!/java.base/jdk/internal/misc/Unsafe.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="2295" column="23" selection-start-line="2295" selection-start-column="23" selection-end-line="2295" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/simRunnable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="562">
+          <caret line="44" selection-start-line="44" selection-end-line="47" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/MMSIMPlugin.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
+        <state relative-caret-position="372">
           <caret line="104" selection-start-line="104" selection-end-line="104" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -363,24 +380,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/openjdk-12.0.1.jdk/Contents/Home/lib/src.zip!/java.base/jdk/internal/misc/Unsafe.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="2295" column="23" selection-start-line="2295" selection-start-column="23" selection-end-line="2295" selection-end-column="23" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/test.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/test.form">
+      <provider selected="true" editor-type-id="ui-designer" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/simGUI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="29" column="33" lean-forward="true" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="33" />
+        <state relative-caret-position="108">
+          <caret line="127" column="53" selection-start-line="127" selection-start-column="53" selection-end-line="127" selection-end-column="53" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#3680#3681#0" expanded="true" />
+            <element signature="e#3706#3707#0" expanded="true" />
+            <element signature="e#3954#3955#0" expanded="true" />
+            <element signature="e#3985#3986#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/simGUI.form">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="10" column="60" selection-start-line="10" selection-start-column="60" selection-end-line="10" selection-end-column="60" />
+        </state>
+      </provider>
       <provider selected="true" editor-type-id="ui-designer" />
     </entry>
   </component>
