@@ -32,7 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-public class simGUI extends javax.swing.JFrame implements Runnable {
+public class simGUI extends javax.swing.JFrame {
 	private final UserProfile user_profile;
 	private final Studio studio_;
 	int[] simProperties = new int[3];
@@ -66,7 +66,7 @@ public class simGUI extends javax.swing.JFrame implements Runnable {
 	private JFormattedTextField SIMimagesTextField;
 	private JFormattedTextField montageRowsTextField;
 	private JFormattedTextField montageColsTextField;
-	private JToggleButton buttonSimMode;
+	private JButton buttonSimMode;
 	private JPanel topPanel;
 	private JComboBox optionMode;
 	private JPanel masterPanel;
@@ -75,6 +75,8 @@ public class simGUI extends javax.swing.JFrame implements Runnable {
 	private JPanel montageColsPanel;
 
 	String comboItems[] = {"Montage mode", "MM Automatic"};
+	private simRunnable threaded_runnable;
+	private boolean buttonSimModeState;
 
 
 	public simGUI(Studio studio) {
@@ -92,6 +94,8 @@ public class simGUI extends javax.swing.JFrame implements Runnable {
 	private void main(){
 		getUserData(user_profile);
 		initComponents();
+		threaded_runnable = new simRunnable(studio_);
+//		Thread(threaded_runnable)
 	}
 
 	private void getUserData(UserProfile user_profile) {
@@ -124,27 +128,13 @@ public class simGUI extends javax.swing.JFrame implements Runnable {
 	}
 
 	void initComponents(){
-//		new JFrame();
-		Dimension panelSize = masterPanel.getPreferredSize();
-
-		this.setBounds(100, 100, (int) panelSize.getWidth(), (int) panelSize.getHeight());
-		this.setTitle("SIM");
-		this.setContentPane(masterPanel);
-
-//		this.setBounds(masterPanel.getBounds());
-//		this.setBounds(masterPanel.getBounds());
-//		this.setDefaultCloseOperation();
-		this.setVisible(true);
-//		this.getContentPane().setLayout(null);
 
 		ActionListener activeButtonListener = new ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
+				System.out.println("actionPerformed activeButton");
 				activeButton(e);
 			}
 		};
-
-//		liveModeButton = new JToggleButton(liveModeButtonOffText);
-//		liveModeButton.addActionListener(activeButtonListener);
 
 		ActionListener settingsListener = new ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -152,40 +142,35 @@ public class simGUI extends javax.swing.JFrame implements Runnable {
 			}
 		};
 
-//		modeComboBox = new JComboBox(comboItems);
-		//TODO Save mode
+		buttonSimMode.setText(liveModeButtonOffText);
+		buttonSimModeState = false;
+		buttonSimMode.addActionListener(activeButtonListener);
+
+		SIMimagesTextField.setValue(SIMages);
+		montageColsTextField.setValue(SIM_COLS);
+		montageRowsTextField.setValue(SIM_ROWS);
 
 		NumberFormat format = NumberFormat.getNumberInstance();
-//
-//		SIMimagesTextField = new JFormattedTextField(format);
-//			SIMimagesTextField.setValue(SIMages);
-//			SIMimagesTextField.addActionListener(settingsListener);
-//
-//		montageRowsTextField = new javax.swing.JFormattedTextField(format);
-//			montageRowsTextField.setValue(SIM_ROWS);
-//			montageRowsTextField.addActionListener(settingsListener);
-//
-//		montageColsTextField = new javax.swing.JFormattedTextField(format);
-//			montageColsTextField.setValue(SIM_COLS);
-//			montageColsTextField.addActionListener(settingsListener);
-//
+		//TODO Save mode
+		SIMimagesTextField = new JFormattedTextField(format);
+		SIMimagesTextField.setValue(SIMages);
+		SIMimagesTextField.addActionListener(settingsListener);
 
-//		masterPanel = new JPanel();
-//		simagesPanel = new JPanel();
-//		montageRowsPanel = new JPanel();
-//		montageColsPanel = new JPanel();
-//
-//		masterPanel.add(simagesPanel);
-//		masterPanel.add(montageRowsPanel);
-//		masterPanel.add(montageColsPanel);
-//		masterPanel.add(modeComboBox);
-//		masterPanel.add(liveModeButton);
-//
-//		simagesPanel.add(SIMimagesTextField);
-//		montageRowsPanel.add(montageRowsTextField);
-//		montageColsPanel.add(montageColsTextField);
+		montageRowsTextField = new javax.swing.JFormattedTextField(format);
+		montageRowsTextField.setValue(SIM_ROWS);
+		montageRowsTextField.addActionListener(settingsListener);
 
+		montageColsTextField = new javax.swing.JFormattedTextField(format);
+		montageColsTextField.setValue(SIM_COLS);
+		montageColsTextField.addActionListener(settingsListener);
+
+		Dimension panelSize = masterPanel.getPreferredSize();
+//		this.setBounds(100, 100, (int) panelSize.getWidth(), (int) panelSize.getHeight());
+		this.setTitle("SIM");
 		this.setContentPane(masterPanel);
+		this.setLocationRelativeTo(null); //Centering
+		this.setResizable(false);
+		this.pack();
 		this.setVisible(true);
 	}
 
@@ -193,112 +178,132 @@ public class simGUI extends javax.swing.JFrame implements Runnable {
 	}
 
 	private void activeButton(java.awt.event.ActionEvent e) {
-//		e.
-		if(liveModeButton.isSelected()){
-			liveModeButton.setText(liveModeButtonOnText);
-			studio_.events().registerForEvents(this);
-			studio_.acquisitions().attachRunnable(-1, -1, -1, -1, this);
+		System.out.println("Live button pressed");
+		if(buttonSimModeState==true){
+			System.out.println("buttonSimModeState is true");
+			buttonSimMode.setText(liveModeButtonOffText);
+			buttonSimModeState = false;
+			threaded_runnable = null;
+//			studio_.events().unregisterForEvents(threaded_runnable);
+//			studio_.acquisitions().clearRunnables();//  dettachRunnable(-1, -1, -1, -1, this);
+			return;
 		}
-		if(!liveModeButton.isSelected()){
-			liveModeButton.setText(liveModeButtonOffText);
-			studio_.events().registerForEvents(this);
-			studio_.acquisitions().attachRunnable(-1, -1, -1, -1, this);
+
+		if(buttonSimModeState==false){
+			System.out.println("buttonSimModeState is false");
+			buttonSimMode.setText(liveModeButtonOnText);
+			buttonSimModeState = true;
+			threaded_runnable = new simRunnable(studio_);
+			studio_.events().registerForEvents(threaded_runnable);
+			studio_.acquisitions().attachRunnable(-1, -1, -1, -1, threaded_runnable);
+			return;
 		}
+
+//		//
+//		if(buttonSimMode.isSelected()){
+//			buttonSimMode.setText(liveModeButtonOnText);
+//
+//		}
+//		if(!buttonSimMode.isSelected()){
+//			buttonSimMode.setText(liveModeButtonOffText);
+//
+//		}
+		this.revalidate();
 	}
 
 	public void guiSettingsChange(java.awt.event.ActionEvent e){
 //		SIMages = SIMimagesTextField.getText()
-
+		this.revalidate();
 	}
-
-	@Override
-	public void run() {
-		try {
-			TaggedImage tImg;
-			//         ImageUtils imageutils = new ImageUtils();
-//         System.out.println("Runnable");
-			//%TODO FIX WITHS AND HEIGHTS
-			sim_stack = new ImageStack( 512,  512);
-//      stack.addSlice(current_image_processor);
-			studio_.core().startSequenceAcquisition(SIMages-1, 0, false);
-			while (mmc.isSequenceRunning() || mmc.getRemainingImageCount() > 0) {
-				if (mmc.getRemainingImageCount() > 0) {
-					tImg = mmc.popNextTaggedImage();
-					ImageProcessor proc0 = ImageUtils.makeProcessor(tImg);
-					sim_stack.addSlice(proc0);
-				}
-			}
-//      montage.show();
-//      ImageProcessor montage_ip = montage.getProcessor();
-		} catch (Exception e) {
-			e.printStackTrace();
-			montage = null;
-			sim_stack = null;
-		}
-	}
-
-	@Subscribe
-	public void onAcquisitionStarted(AcquisitionStartedEvent e) {
-		datastore_ = e.getDatastore();
-		datastore_.registerForEvents(this);
-		System.out.println("AcquisitionStartedEvent");
-		SequenceSettings settings_ = studio_.acquisitions().getAcquisitionSettings();
-		SummaryMetadata summarymetadata = studio_.acquisitions().generateSummaryMetadata();
-		mda_montage = studio_.data().createRAMDatastore();
-		mda_montage_display = studio_.getDisplayManager().createDisplay(mda_montage);
-
-	}
-
-	@Subscribe
-	public void onDataProviderHasNewImageEvent(DataProviderHasNewImageEvent e){
-
-		System.out.println("DataProviderHasNewImageEvent");
-
-		studio_.acquisitions().setPause(true);
-//      DataProvider mda_provider = e.getDataProvider();
-		mda_coords = e.getCoords();
-		current_image = e.getImage();
-		metadata = current_image.getMetadata();
-		System.out.println(mda_coords);
-////      studio_.acquisitions().
-		try {
-			ImageProcessor current_image_processor = ij_converter.createProcessor(current_image);
-			sim_stack.addSlice(current_image_processor);
-			ImagePlus sim_stack_plus = new ImagePlus("Stack", sim_stack);
-			montage = montager.makeMontage2(sim_stack_plus, SIM_COLS, SIM_ROWS, 1.00, 1, SIMages, 1, 0, false);
-			montage_image = ij_converter.createImage(montage.getProcessor(), mda_coords, metadata);
-			mda_montage.putImage(montage_image);
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
-		studio_.acquisitions().setPause(false);
-	}
-
-	@Subscribe
-	public void onAcquisitionEndedEvent(AcquisitionEndedEvent e){
-//		DataProvider new_provider = e.getDisplay().getDataProvider();
-		String acquisition_path = datastore_.getSavePath();
-//      studio_.acquisitions().getAcquisitionSettings().;
-		System.out.println(acquisition_path);
-		if(acquisition_path!=null){
-			try {
-				//TODO determine savemode and mimic
-				mda_montage.save(Datastore.SaveMode.MULTIPAGE_TIFF,acquisition_path.concat("_SIM"));
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
-		}
-		System.out.println("AcquisitionEndedEvent");
-//      System.out.println(mda_montage);
-//      mda_montage.setSavePath("/Users/craggles/Desktop");
-//      try {
-////         datastore_coords_ = datastore_.getMaxIndices();
-////         current_image = datastore_.getImage(datastore_coords_);
-////         mda_montage.putImage(current_image);
-////         mda_montage.save(Datastore.SaveMode.MULTIPAGE_TIFF,"/Users/craggles/Desktop/ok/");
-//      } catch (IOException ex) {
-//         ex.printStackTrace();
-//      }
-
-	}
+//
+//	@Override
+//	public void run() {
+//		try {
+//			TaggedImage tImg;
+//			//         ImageUtils imageutils = new ImageUtils();
+////         System.out.println("Runnable");
+//			//%TODO FIX WITHS AND HEIGHTS
+//			sim_stack = new ImageStack( 512,  512);
+////      stack.addSlice(current_image_processor);
+//			studio_.core().startSequenceAcquisition(SIMages-1, 0, false);
+//			while (mmc.isSequenceRunning() || mmc.getRemainingImageCount() > 0) {
+//				if (mmc.getRemainingImageCount() > 0) {
+//					tImg = mmc.popNextTaggedImage();
+//					ImageProcessor proc0 = ImageUtils.makeProcessor(tImg);
+//					sim_stack.addSlice(proc0);
+//				}
+//			}
+////      montage.show();
+////      ImageProcessor montage_ip = montage.getProcessor();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			montage = null;
+//			sim_stack = null;
+//		}
+//	}
+//
+//	@Subscribe
+//	public void onAcquisitionStarted(AcquisitionStartedEvent e) {
+//		datastore_ = e.getDatastore();
+//		datastore_.registerForEvents(this);
+//		System.out.println("AcquisitionStartedEvent");
+//		SequenceSettings settings_ = studio_.acquisitions().getAcquisitionSettings();
+//		SummaryMetadata summarymetadata = studio_.acquisitions().generateSummaryMetadata();
+//		mda_montage = studio_.data().createRAMDatastore();
+//		mda_montage_display = studio_.getDisplayManager().createDisplay(mda_montage);
+//
+//	}
+//
+//	@Subscribe
+//	public void onDataProviderHasNewImageEvent(DataProviderHasNewImageEvent e){
+//
+//		System.out.println("DataProviderHasNewImageEvent");
+//
+//		studio_.acquisitions().setPause(true);
+////      DataProvider mda_provider = e.getDataProvider();
+//		mda_coords = e.getCoords();
+//		current_image = e.getImage();
+//		metadata = current_image.getMetadata();
+//		System.out.println(mda_coords);
+//////      studio_.acquisitions().
+//		try {
+//			ImageProcessor current_image_processor = ij_converter.createProcessor(current_image);
+//			sim_stack.addSlice(current_image_processor);
+//			ImagePlus sim_stack_plus = new ImagePlus("Stack", sim_stack);
+//			montage = montager.makeMontage2(sim_stack_plus, SIM_COLS, SIM_ROWS, 1.00, 1, SIMages, 1, 0, false);
+//			montage_image = ij_converter.createImage(montage.getProcessor(), mda_coords, metadata);
+//			mda_montage.putImage(montage_image);
+//		} catch (IOException ex) {
+//			ex.printStackTrace();
+//		}
+//		studio_.acquisitions().setPause(false);
+//	}
+//
+//	@Subscribe
+//	public void onAcquisitionEndedEvent(AcquisitionEndedEvent e){
+////		DataProvider new_provider = e.getDisplay().getDataProvider();
+//		String acquisition_path = datastore_.getSavePath();
+////      studio_.acquisitions().getAcquisitionSettings().;
+//		System.out.println(acquisition_path);
+//		if(acquisition_path!=null){
+//			try {
+//				//TODO determine savemode and mimic
+//				mda_montage.save(Datastore.SaveMode.MULTIPAGE_TIFF,acquisition_path.concat("_SIM"));
+//			} catch (IOException ex) {
+//				ex.printStackTrace();
+//			}
+//		}
+//		System.out.println("AcquisitionEndedEvent");
+////      System.out.println(mda_montage);
+////      mda_montage.setSavePath("/Users/craggles/Desktop");
+////      try {
+//////         datastore_coords_ = datastore_.getMaxIndices();
+//////         current_image = datastore_.getImage(datastore_coords_);
+//////         mda_montage.putImage(current_image);
+//////         mda_montage.save(Datastore.SaveMode.MULTIPAGE_TIFF,"/Users/craggles/Desktop/ok/");
+////      } catch (IOException ex) {
+////         ex.printStackTrace();
+////      }
+//
+//	}
 }

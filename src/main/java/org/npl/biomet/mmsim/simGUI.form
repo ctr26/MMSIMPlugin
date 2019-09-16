@@ -132,7 +132,7 @@
               </model>
             </properties>
           </component>
-          <component id="e63eb" class="javax.swing.JToggleButton" binding="buttonSimMode">
+          <component id="77e8e" class="javax.swing.JButton" binding="buttonSimMode">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="0" fill="1" indent="0" use-parent-layout="false">
                 <minimum-size width="100" height="-1"/>
