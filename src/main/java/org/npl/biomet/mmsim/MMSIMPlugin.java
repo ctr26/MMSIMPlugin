@@ -103,8 +103,6 @@ public class MMSIMPlugin implements MenuPlugin, SciJavaPlugin {
       try {
          //Add GUI Here
          new simGUI(studio_);
-
-
          System.out.println(studio_);
 //            SIMode simmode = new SIMode(studio_);
 //            studio_.events().registerForEvents(simmode);
