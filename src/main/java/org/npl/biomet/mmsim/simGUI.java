@@ -77,6 +77,7 @@ public class simGUI extends javax.swing.JFrame {
 	String comboItems[] = {"Montage mode", "MM Automatic"};
 	private simRunnable threaded_runnable;
 	private boolean buttonSimModeState;
+	private simRunnable runnable;
 
 
 	public simGUI(Studio studio) {
@@ -92,9 +93,10 @@ public class simGUI extends javax.swing.JFrame {
 //		Runnable runnable = new simRunnable(studio_);
 	}
 	private void main(){
+		System.out.println("Building GUI");
 		getUserData(user_profile);
 		initComponents();
-		threaded_runnable = new simRunnable(studio_);
+//		threaded_runnable = new simRunnable(studio_);
 //		Thread(threaded_runnable)
 	}
 
@@ -183,9 +185,11 @@ public class simGUI extends javax.swing.JFrame {
 			System.out.println("buttonSimModeState is true");
 			buttonSimMode.setText(liveModeButtonOffText);
 			buttonSimModeState = false;
-			threaded_runnable = null;
-//			studio_.events().unregisterForEvents(threaded_runnable);
-//			studio_.acquisitions().clearRunnables();//  dettachRunnable(-1, -1, -1, -1, this);
+//			runnable = null;
+//			System.gc();
+//			runnable
+			studio_.events().unregisterForEvents(runnable);
+			studio_.acquisitions().clearRunnables();//  dettachRunnable(-1, -1, -1, -1, this);
 			return;
 		}
 
@@ -193,9 +197,14 @@ public class simGUI extends javax.swing.JFrame {
 			System.out.println("buttonSimModeState is false");
 			buttonSimMode.setText(liveModeButtonOnText);
 			buttonSimModeState = true;
-			threaded_runnable = new simRunnable(studio_);
-			studio_.events().registerForEvents(threaded_runnable);
-			studio_.acquisitions().attachRunnable(-1, -1, -1, -1, threaded_runnable);
+			runnable = new simRunnable(studio_);
+			studio_.events().registerForEvents(runnable);
+			studio_.acquisitions().attachRunnable(-1, -1, -1, -1, runnable);
+//
+//			threaded_runnable = new simRunnable(studio_);
+//			studio_.events().registerForEvents(threaded_runnable);
+//			studio_.acquisitions().attachRunnable(-1, -1, -1, -1, threaded_runnable);
+
 			return;
 		}
 
