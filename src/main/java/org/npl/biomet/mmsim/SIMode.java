@@ -11,9 +11,9 @@ import org.micromanager.display.DataViewer;
 import org.micromanager.events.AcquisitionStartedEvent;
 import org.micromanager.events.DatastoreClosingEvent;
 import org.micromanager.events.NewDisplayEvent;
-import org.micromanager.magellan.imagedisplay.NewImageEvent;
+//import org.micromanager.magellan.imagedisplay.NewImageEvent;
 
-import java.io.IOException;
+	import java.io.IOException;
 //import org.micromanager.magellan.imagedisplay.NewImageEvent;
 //import org.micromanager.magellan.imagedisplay.NewImageEvent;
 
