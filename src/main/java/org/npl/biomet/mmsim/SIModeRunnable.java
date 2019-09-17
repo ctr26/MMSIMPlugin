@@ -1,16 +1,13 @@
 package org.npl.biomet.mmsim;
 
-import org.micromanager.Studio;
-
 public class SIModeRunnable implements Runnable {
-	private simRunnable runnable_;
+	private SIMMode simmode_;
 
-	public SIModeRunnable(simRunnable runnable) {
-		runnable_ = runnable;
+	public SIModeRunnable(SIMMode simmode) {
+		simmode_ = simmode;
 	}
 	@Override
 	public void run() {
-		runnable_.run();
-
+		simmode_.run();
 	}
 }

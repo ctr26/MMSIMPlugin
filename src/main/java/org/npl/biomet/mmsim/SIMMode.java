@@ -19,7 +19,7 @@ import org.micromanager.internal.utils.imageanalysis.ImageUtils;
 import java.io.IOException;
 import java.util.List;
 
-public class simRunnable implements Runnable {
+public class SIMMode implements Runnable {
 	int SIMMAGES = 9;
 	private final Studio studio_;
 	private final ImageJConverter ij_converter;
@@ -38,10 +38,11 @@ public class simRunnable implements Runnable {
 	private ImagePlus montage;
 	private Image montage_image;
 	private ImageStack sim_stack;
+	private boolean runningState = false;
 
 //   private ImageProcessor montage_ip;
 
-	public simRunnable(Studio studio) {
+	public SIMMode(Studio studio) {
 		studio_ = studio;
 		mmc = studio_.core();
 		ij_converter = studio_.data().getImageJConverter();
@@ -57,29 +58,30 @@ public class simRunnable implements Runnable {
 ////         datastore_.putImage(montage_image);
 //   }
 
-	@Override
 	public void run() {
-		try {
-			TaggedImage tImg;
-			//         ImageUtils imageutils = new ImageUtils();
+		if(runningState) {
+			try {
+				TaggedImage tImg;
+				//         ImageUtils imageutils = new ImageUtils();
 //         System.out.println("Runnable");
-			//%TODO FIX WITHS AND HEIGHTS
-			sim_stack = new ImageStack( 512,  512);
+				//%TODO FIX WITHS AND HEIGHTS
+				sim_stack = new ImageStack(512, 512);
 //      stack.addSlice(current_image_processor);
-			studio_.core().startSequenceAcquisition(SIMMAGES-1, 0, false);
-			while (mmc.isSequenceRunning() || mmc.getRemainingImageCount() > 0) {
-				if (mmc.getRemainingImageCount() > 0) {
-					tImg = mmc.popNextTaggedImage();
-					ImageProcessor proc0 = ImageUtils.makeProcessor(tImg);
-					sim_stack.addSlice(proc0);
+				studio_.core().startSequenceAcquisition(SIMMAGES - 1, 0, false);
+				while (mmc.isSequenceRunning() || mmc.getRemainingImageCount() > 0) {
+					if (mmc.getRemainingImageCount() > 0) {
+						tImg = mmc.popNextTaggedImage();
+						ImageProcessor proc0 = ImageUtils.makeProcessor(tImg);
+						sim_stack.addSlice(proc0);
+					}
 				}
-			}
 //      montage.show();
 //      ImageProcessor montage_ip = montage.getProcessor();
-		} catch (Exception e) {
-			e.printStackTrace();
-			montage = null;
-			sim_stack = null;
+			} catch (Exception e) {
+				e.printStackTrace();
+				montage = null;
+				sim_stack = null;
+			}
 		}
 	}
 
@@ -146,5 +148,9 @@ public class simRunnable implements Runnable {
 //         ex.printStackTrace();
 //      }
 
+	}
+
+	public void running(boolean runningState) {
+		this.runningState = runningState;
 	}
 }

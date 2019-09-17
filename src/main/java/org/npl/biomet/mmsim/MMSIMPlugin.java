@@ -141,11 +141,11 @@ public class MMSIMPlugin implements MenuPlugin, SciJavaPlugin {
 //         montage_rows = NumberUtils.displayStringToInt(getPropertyValue(MONTAGE_ROW));
 //         montage_columns = NumberUtils.displayStringToInt(getPropertyValue(MONTAGE_COLUMN));
 //         if(simmode==1){
-//            simRunnable = new simRunnable(studio_);
-//            studio_.events().registerForEvents(simRunnable);
-//            studio_.acquisitions().attachRunnable(-1, -1, -1, -1, simRunnable);
+//            SIMMode = new SIMMode(studio_);
+//            studio_.events().registerForEvents(SIMMode);
+//            studio_.acquisitions().attachRunnable(-1, -1, -1, -1, SIMMode);
 //         }else{
-//            simRunnable =null;
+//            SIMMode =null;
 //         }
 //
 ////         cropFactor = clip(0.01, cropFactor, 1.0);

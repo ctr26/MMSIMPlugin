@@ -1,36 +1,21 @@
 package org.npl.biomet.mmsim;
 
-import com.google.common.eventbus.Subscribe;
 import ij.ImagePlus;
 import ij.ImageStack;
 import ij.plugin.MontageMaker;
-import ij.process.ImageProcessor;
 import mmcorej.CMMCore;
-import mmcorej.TaggedImage;
-import org.micromanager.PropertyMap;
 import org.micromanager.Studio;
 import org.micromanager.UserProfile;
-import org.micromanager.acquisition.SequenceSettings;
 import org.micromanager.data.*;
 import org.micromanager.data.Image;
 import org.micromanager.display.DisplayWindow;
-import org.micromanager.events.AcquisitionEndedEvent;
-import org.micromanager.events.AcquisitionStartedEvent;
-import org.micromanager.internal.utils.imageanalysis.ImageUtils;
 import org.micromanager.propertymap.MutablePropertyMapView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 public class simGUI extends javax.swing.JFrame {
 	private final UserProfile user_profile;
@@ -75,9 +60,10 @@ public class simGUI extends javax.swing.JFrame {
 	private JPanel montageColsPanel;
 
 	String comboItems[] = {"Montage mode", "MM Automatic"};
-	private simRunnable threaded_runnable;
+//	private SIMMode threaded_runnable;
 	private boolean buttonSimModeState;
-	private simRunnable runnable;
+	private SIMMode SIMmode;
+	private Runnable runnable;
 
 
 	public simGUI(Studio studio) {
@@ -87,16 +73,18 @@ public class simGUI extends javax.swing.JFrame {
 		ij_converter = studio_.data().getImageJConverter();
 		montager = new MontageMaker();
 		user_profile = studio_.profile();
+
+		SIMmode = new SIMMode(studio_);
+		runnable = new SIModeRunnable(SIMmode);
+		studio_.acquisitions().attachRunnable(-1, -1, -1, -1, runnable);
+
 		main();
-
-
-//		Runnable runnable = new simRunnable(studio_);
 	}
 	private void main(){
 		System.out.println("Building GUI");
 		getUserData(user_profile);
 		initComponents();
-//		threaded_runnable = new simRunnable(studio_);
+//		threaded_runnable = new SIMMode(studio_);
 //		Thread(threaded_runnable)
 	}
 
@@ -176,32 +164,30 @@ public class simGUI extends javax.swing.JFrame {
 		this.setVisible(true);
 	}
 
-	private void cleanup() {
-	}
-
 	private void activeButton(java.awt.event.ActionEvent e) {
 		System.out.println("Live button pressed");
 		if(buttonSimModeState==true){
 			System.out.println("buttonSimModeState is true");
+
 			buttonSimMode.setText(liveModeButtonOffText);
 			buttonSimModeState = false;
-//			runnable = null;
-//			System.gc();
-//			runnable
-			studio_.events().unregisterForEvents(runnable);
+
+			studio_.events().unregisterForEvents(SIMmode);
+			SIMmode.running(false);
 			studio_.acquisitions().clearRunnables();//  dettachRunnable(-1, -1, -1, -1, this);
 			return;
 		}
 
 		if(buttonSimModeState==false){
 			System.out.println("buttonSimModeState is false");
+
 			buttonSimMode.setText(liveModeButtonOnText);
 			buttonSimModeState = true;
-			runnable = new simRunnable(studio_);
-			studio_.events().registerForEvents(runnable);
-			studio_.acquisitions().attachRunnable(-1, -1, -1, -1, runnable);
+
+			SIMmode.running(true);
+			studio_.events().registerForEvents(SIMmode);
 //
-//			threaded_runnable = new simRunnable(studio_);
+//			threaded_runnable = new SIMMode(studio_);
 //			studio_.events().registerForEvents(threaded_runnable);
 //			studio_.acquisitions().attachRunnable(-1, -1, -1, -1, threaded_runnable);
 
