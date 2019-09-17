@@ -6,14 +6,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3ed4f4b3-79df-497d-a5b2-ba63b947df22" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/MMSIMPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/MMSIMPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/SIModeRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/SIModeRunnable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/simGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/simGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/simRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/SIMMode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/npl/biomet/mmsim/MMSIMPlugin.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/npl/biomet/mmsim/MMSIMPlugin.class" afterDir="false" />
-    </list>
+    <list default="true" id="3ed4f4b3-79df-497d-a5b2-ba63b947df22" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -53,7 +46,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/simGUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="227">
+            <state relative-caret-position="348">
               <caret line="183" column="56" lean-forward="true" selection-start-line="183" selection-start-column="56" selection-end-line="183" selection-end-column="56" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -250,7 +243,7 @@
     <property name="UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH" value="146" />
     <property name="editor.config.ad.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Problems" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="configurable.group.language" />
@@ -479,7 +472,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/simGUI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="227">
+        <state relative-caret-position="348">
           <caret line="183" column="56" lean-forward="true" selection-start-line="183" selection-start-column="56" selection-end-line="183" selection-end-column="56" />
           <folding>
             <element signature="imports" expanded="true" />
