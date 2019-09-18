@@ -8,6 +8,6 @@ public class SIModeRunnable implements Runnable {
 	}
 	@Override
 	public void run() {
-		simmode_.run();
+		simmode_.newFrame();
 	}
 }

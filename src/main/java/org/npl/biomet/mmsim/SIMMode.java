@@ -19,7 +19,7 @@ import org.micromanager.internal.utils.imageanalysis.ImageUtils;
 import java.io.IOException;
 import java.util.List;
 
-public class SIMMode implements Runnable {
+public class SIMMode{
 	int SIMMAGES = 9;
 	private final Studio studio_;
 	private final ImageJConverter ij_converter;
@@ -49,16 +49,7 @@ public class SIMMode implements Runnable {
 		montager = new MontageMaker();
 	}
 
-//   private ImagePlus getMontage() throws Exception {
-////      ImageProcessor current_image_processor = ij_converter.createProcessor(current_image);
-////         a = current_image;
-//
-////      return montage;
-//
-////         datastore_.putImage(montage_image);
-//   }
-
-	public void run() {
+	public void newFrame() {
 		if(runningState) {
 			try {
 				TaggedImage tImg;
@@ -87,6 +78,8 @@ public class SIMMode implements Runnable {
 
 	@Subscribe
 	public void onAcquisitionStarted(AcquisitionStartedEvent e) {
+//		e.getSettings();
+//		studio_.acquisitions().getAcquisitionSettings().
 		datastore_ = e.getDatastore();
 		datastore_.registerForEvents(this);
 		System.out.println("AcquisitionStartedEvent");

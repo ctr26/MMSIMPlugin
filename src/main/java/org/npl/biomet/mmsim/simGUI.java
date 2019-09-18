@@ -78,15 +78,15 @@ public class simGUI extends javax.swing.JFrame {
 		runnable = new SIModeRunnable(SIMmode);
 		studio_.acquisitions().attachRunnable(-1, -1, -1, -1, runnable);
 
-		main();
-	}
-	private void main(){
 		System.out.println("Building GUI");
 		getUserData(user_profile);
-		initComponents();
+		initGUIComponents();
 //		threaded_runnable = new SIMMode(studio_);
 //		Thread(threaded_runnable)
 	}
+//	private void main(){
+//
+//	}
 
 	private void getUserData(UserProfile user_profile) {
 		MutablePropertyMapView propertyMap = user_profile.getSettings(user_profile.getClass());
@@ -117,7 +117,7 @@ public class simGUI extends javax.swing.JFrame {
 		System.out.println(updatedSIMProperties.toString());
 	}
 
-	void initComponents(){
+	void initGUIComponents(){
 
 		ActionListener activeButtonListener = new ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -212,7 +212,7 @@ public class simGUI extends javax.swing.JFrame {
 	}
 //
 //	@Override
-//	public void run() {
+//	public void newFrame() {
 //		try {
 //			TaggedImage tImg;
 //			//         ImageUtils imageutils = new ImageUtils();
