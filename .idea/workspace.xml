@@ -6,12 +6,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3ed4f4b3-79df-497d-a5b2-ba63b947df22" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/MMSIMPlugin.jar" beforeDir="false" afterPath="$PROJECT_DIR$/MMSIMPlugin.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/SIMMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/SIMMode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/SIModeRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/SIModeRunnable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/simGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/npl/biomet/mmsim/simGUI.java" afterDir="false" />
-    </list>
+    <list default="true" id="3ed4f4b3-79df-497d-a5b2-ba63b947df22" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
