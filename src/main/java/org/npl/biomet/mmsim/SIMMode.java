@@ -39,6 +39,8 @@ public class SIMMode{
 	private Image montage_image;
 	private ImageStack sim_stack;
 	private boolean runningState = false;
+	private long CAMERA_HEIGHT;
+	private long CAMERA_WIDTH;
 
 //   private ImageProcessor montage_ip;
 
@@ -56,7 +58,7 @@ public class SIMMode{
 				//         ImageUtils imageutils = new ImageUtils();
 //         System.out.println("Runnable");
 				//%TODO FIX WITHS AND HEIGHTS
-				sim_stack = new ImageStack(512, 512);
+				sim_stack = new ImageStack((int) CAMERA_WIDTH, (int) CAMERA_HEIGHT);
 //      stack.addSlice(current_image_processor);
 				studio_.core().startSequenceAcquisition(SIMMAGES - 1, 0, false);
 				while (mmc.isSequenceRunning() || mmc.getRemainingImageCount() > 0) {
@@ -87,6 +89,8 @@ public class SIMMode{
 		SummaryMetadata summarymetadata = studio_.acquisitions().generateSummaryMetadata();
 		mda_montage = studio_.data().createRAMDatastore();
 		mda_montage_display = studio_.getDisplayManager().createDisplay(mda_montage);
+		CAMERA_HEIGHT = mmc.getImageHeight();
+		CAMERA_WIDTH = mmc.getImageHeight();
 
 	}
 
