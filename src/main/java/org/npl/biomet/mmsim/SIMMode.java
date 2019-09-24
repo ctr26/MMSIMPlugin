@@ -90,7 +90,7 @@ public class SIMMode{
 		mda_montage = studio_.data().createRAMDatastore();
 		mda_montage_display = studio_.getDisplayManager().createDisplay(mda_montage);
 		CAMERA_HEIGHT = mmc.getImageHeight();
-		CAMERA_WIDTH = mmc.getImageHeight();
+		CAMERA_WIDTH = mmc.getImageWidth();
 
 	}
 
