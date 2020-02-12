@@ -10,13 +10,15 @@ import org.micromanager.data.*;
 import org.micromanager.data.Image;
 import org.micromanager.display.DisplayWindow;
 import org.micromanager.propertymap.MutablePropertyMapView;
-
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
 import java.util.List;
-
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 public class simGUI extends javax.swing.JFrame {
 	private final UserProfile user_profile;
 	private final Studio studio_;
@@ -59,7 +61,7 @@ public class simGUI extends javax.swing.JFrame {
 	private JPanel montageRowsPanel;
 	private JPanel montageColsPanel;
 
-	String comboItems[] = {"Montage mode", "MM Automatic"};
+	String[] comboItems = {"Montage mode", "MM Automatic"};
 //	private SIMMode threaded_runnable;
 	private boolean buttonSimModeState;
 	private SIMMode SIMmode;
@@ -76,13 +78,20 @@ public class simGUI extends javax.swing.JFrame {
 
 		SIMmode = new SIMMode(studio_);
 		runnable = new SIModeRunnable(SIMmode);
-		studio_.acquisitions().attachRunnable(-1, -1, -1, -1, runnable);
 
 		System.out.println("Building GUI");
 		getUserData(user_profile);
 		initGUIComponents();
+
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				stopSIMMode();
+			}
+		});
 //		threaded_runnable = new SIMMode(studio_);
 //		Thread(threaded_runnable)
+
 	}
 //	private void main(){
 //
@@ -167,30 +176,13 @@ public class simGUI extends javax.swing.JFrame {
 	private void activeButton(java.awt.event.ActionEvent e) {
 		System.out.println("Live button pressed");
 		if(buttonSimModeState==true){
-			System.out.println("buttonSimModeState is true");
-
-			buttonSimMode.setText(liveModeButtonOffText);
-			buttonSimModeState = false;
-
-			studio_.events().unregisterForEvents(SIMmode);
-			SIMmode.running(false);
-			studio_.acquisitions().clearRunnables();//  dettachRunnable(-1, -1, -1, -1, this);
+			startSIMMode();
 			return;
 		}
 
 		if(buttonSimModeState==false){
 			System.out.println("buttonSimModeState is false");
-
-			buttonSimMode.setText(liveModeButtonOnText);
-			buttonSimModeState = true;
-
-			SIMmode.running(true);
-			studio_.events().registerForEvents(SIMmode);
-//
-//			threaded_runnable = new SIMMode(studio_);
-//			studio_.events().registerForEvents(threaded_runnable);
-//			studio_.acquisitions().attachRunnable(-1, -1, -1, -1, threaded_runnable);
-
+			stopSIMMode();
 			return;
 		}
 
@@ -206,10 +198,39 @@ public class simGUI extends javax.swing.JFrame {
 		this.revalidate();
 	}
 
+	public void startSIMMode(){
+		System.out.println("buttonSimModeState is true");
+
+		buttonSimMode.setText(liveModeButtonOffText);
+		buttonSimModeState = false;
+
+		studio_.events().unregisterForEvents(SIMmode);
+		SIMmode.running(false);
+		studio_.acquisitions().clearRunnables();//  dettachRunnable(-1, -1, -1, -1, this);
+	}
+
+	public void stopSIMMode(){
+		System.out.println("buttonSimModeState is false");
+
+		buttonSimMode.setText(liveModeButtonOnText);
+		buttonSimModeState = true;
+
+		SIMmode.running(true);
+		studio_.acquisitions().attachRunnable(-1, -1, -1, -1, runnable);
+		studio_.events().registerForEvents(SIMmode);
+//
+//			threaded_runnable = new SIMMode(studio_);
+//			studio_.events().registerForEvents(threaded_runnable);
+//			studio_.acquisitions().attachRunnable(-1, -1, -1, -1, threaded_runnable);
+
+	}
+
 	public void guiSettingsChange(java.awt.event.ActionEvent e){
 //		SIMages = SIMimagesTextField.getText()
 		this.revalidate();
 	}
+
+
 //
 //	@Override
 //	public void newFrame() {
