@@ -107,15 +107,25 @@ public class SIMMode{
 		metadata = current_image.getMetadata();
 		System.out.println(mda_coords);
 ////      studio_.acquisitions().
-		try {
-//			ImageProcessor current_image_processor = ij_converter.createProcessor(current_image);
-//			sim_stack.addSlice(current_image_processor);
-			ImagePlus sim_stack_plus = new ImagePlus("Stack", sim_stack);
-			montage = montager.makeMontage2(sim_stack_plus, SIMMAGES/3, SIMMAGES/3, 1.00, 1, SIMMAGES, 1, 0, false);
-			montage_image = ij_converter.createImage(montage.getProcessor(), mda_coords, metadata);
-			mda_montage.putImage(montage_image);
-		} catch (IOException ex) {
-			ex.printStackTrace();
+
+		int count = 0;
+		int maxTries = 10;
+		while(true) {
+			try {
+				//			ImageProcessor current_image_processor = ij_converter.createProcessor(current_image);
+				//			sim_stack.addSlice(current_image_processor);
+				ImagePlus sim_stack_plus = new ImagePlus("Stack", sim_stack);
+				montage = montager.makeMontage2(sim_stack_plus, SIMMAGES / 3, SIMMAGES / 3, 1.00, 1, SIMMAGES, 1, 0, false);
+				montage_image = ij_converter.createImage(montage.getProcessor(), mda_coords, metadata);
+				mda_montage.putImage(montage_image);
+				break;
+			} catch (IllegalArgumentException ex) {
+				ex.printStackTrace();
+				if (++count == maxTries) break;
+			} catch (IOException ex) {
+				ex.printStackTrace();
+				if (++count == maxTries) break;
+			}
 		}
 		studio_.acquisitions().setPause(false);
 	}
