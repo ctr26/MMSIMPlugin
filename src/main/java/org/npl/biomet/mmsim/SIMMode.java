@@ -56,10 +56,11 @@ public class SIMMode{
 			try {
 				TaggedImage tImg;
 				//         ImageUtils imageutils = new ImageUtils();
-//         System.out.println("Runnable");
+         System.out.println("Runnable");
 				//%TODO FIX WITHS AND HEIGHTS
 				sim_stack = new ImageStack((int) CAMERA_WIDTH, (int) CAMERA_HEIGHT);
-//      stack.addSlice(current_image_processor);
+				ImageProcessor current_image_processor = ImageUtils.makeProcessor(mmc.getTaggedImage());
+				sim_stack.addSlice(current_image_processor);
 				studio_.core().startSequenceAcquisition(SIMMAGES - 1, 0, false);
 				while (mmc.isSequenceRunning() || mmc.getRemainingImageCount() > 0) {
 					if (mmc.getRemainingImageCount() > 0) {
@@ -107,8 +108,8 @@ public class SIMMode{
 		System.out.println(mda_coords);
 ////      studio_.acquisitions().
 		try {
-			ImageProcessor current_image_processor = ij_converter.createProcessor(current_image);
-			sim_stack.addSlice(current_image_processor);
+//			ImageProcessor current_image_processor = ij_converter.createProcessor(current_image);
+//			sim_stack.addSlice(current_image_processor);
 			ImagePlus sim_stack_plus = new ImagePlus("Stack", sim_stack);
 			montage = montager.makeMontage2(sim_stack_plus, SIMMAGES/3, SIMMAGES/3, 1.00, 1, SIMMAGES, 1, 0, false);
 			montage_image = ij_converter.createImage(montage.getProcessor(), mda_coords, metadata);
