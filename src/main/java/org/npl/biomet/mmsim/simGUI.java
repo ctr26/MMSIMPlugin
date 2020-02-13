@@ -76,9 +76,6 @@ public class simGUI extends javax.swing.JFrame {
 		montager = new MontageMaker();
 		user_profile = studio_.profile();
 
-		SIMmode = new SIMMode(studio_);
-		runnable = new SIModeRunnable(SIMmode);
-
 		System.out.println("Building GUI");
 		getUserData(user_profile);
 		initGUIComponents();
@@ -179,7 +176,6 @@ public class simGUI extends javax.swing.JFrame {
 			startSIMMode();
 			return;
 		}
-
 		if(buttonSimModeState==false){
 			System.out.println("buttonSimModeState is false");
 			stopSIMMode();
@@ -207,10 +203,16 @@ public class simGUI extends javax.swing.JFrame {
 		studio_.events().unregisterForEvents(SIMmode);
 		SIMmode.running(false);
 		studio_.acquisitions().clearRunnables();//  dettachRunnable(-1, -1, -1, -1, this);
+
+		SIMmode = null;
+		runnable = null;
 	}
 
 	public void stopSIMMode(){
 		System.out.println("buttonSimModeState is false");
+
+		SIMmode = new SIMMode(studio_);
+		runnable = new SIModeRunnable(SIMmode);
 
 		buttonSimMode.setText(liveModeButtonOnText);
 		buttonSimModeState = true;
