@@ -39,8 +39,8 @@ public class SIMMode{
 	private Image montage_image;
 	private ImageStack sim_stack;
 	private boolean runningState = false;
-	private long CAMERA_HEIGHT;
-	private long CAMERA_WIDTH;
+	private long CAMERA_HEIGHT = 512; //TODO This is dodgy
+	private long CAMERA_WIDTH = 512;
 
 //   private ImageProcessor montage_ip;
 
@@ -49,6 +49,9 @@ public class SIMMode{
 		mmc = studio_.core();
 		ij_converter = studio_.data().getImageJConverter();
 		montager = new MontageMaker();
+
+		CAMERA_HEIGHT = mmc.getImageHeight();
+		CAMERA_WIDTH = mmc.getImageWidth();
 	}
 
 	public void newFrame() {
@@ -56,16 +59,16 @@ public class SIMMode{
 			try {
 				TaggedImage tImg;
 				//         ImageUtils imageutils = new ImageUtils();
-         System.out.println("Runnable");
+//         System.out.println("Runnable");
 				//%TODO FIX WITHS AND HEIGHTS
-				CAMERA_HEIGHT = mmc.getImageHeight();
-				CAMERA_WIDTH = mmc.getImageWidth();
-				System.out.println(CAMERA_HEIGHT);
+				//CAMERA_HEIGHT = mmc.getImageHeight();
+				//CAMERA_WIDTH = mmc.getImageWidth();
 
-//				ImageProcessor current_image_processor = ImageUtils.makeProcessor(mmc.getTaggedImage());
-				sim_stack = new ImageStack((int) CAMERA_WIDTH, (int) CAMERA_HEIGHT);	
-//				sim_stack.addSlice(current_image_processor);
-				mmc.startSequenceAcquisition(SIMMAGES, 0, false);
+				//ImageProcessor current_image_processor = ImageUtils.makeProcessor(mmc.getTaggedImage());
+				sim_stack = new ImageStack((int) CAMERA_WIDTH, (int) CAMERA_HEIGHT);
+
+				//sim_stack.addSlice(current_image_processor);
+				studio_.core().startSequenceAcquisition(SIMMAGES, 0, false);
 				while (mmc.isSequenceRunning() || mmc.getRemainingImageCount() > 0) {
 					if (mmc.getRemainingImageCount() > 0) {
 						tImg = mmc.popNextTaggedImage();
@@ -77,8 +80,9 @@ public class SIMMode{
 //      ImageProcessor montage_ip = montage.getProcessor();
 			} catch (Exception e) {
 				e.printStackTrace();
-				montage = null;
-				sim_stack = null;
+				System.out.println("Failed on runnable");
+				//montage = null;
+				//sim_stack = null;
 			}
 		}
 	}
@@ -96,6 +100,7 @@ public class SIMMode{
 		mda_montage_display = studio_.getDisplayManager().createDisplay(mda_montage);
 		CAMERA_HEIGHT = mmc.getImageHeight();
 		CAMERA_WIDTH = mmc.getImageWidth();
+
 	}
 
 	@Subscribe
@@ -109,15 +114,13 @@ public class SIMMode{
 		current_image = e.getImage();
 		metadata = current_image.getMetadata();
 		System.out.println(mda_coords);
-//		Coords.Builder mda_coords_builder = mda_coords.copyBuilder();
-//		mda_coords_builder.index("slm",0);
 ////      studio_.acquisitions().
 		int count = 0;
 		int maxTries = 10;
 		while(true) {
 			try {
-				//			ImageProcessor current_image_processor = ij_converter.createProcessor(current_image);
-				//			sim_stack.addSlice(current_image_processor);
+				//ImageProcessor current_image_processor = ij_converter.createProcessor(current_image);
+				//sim_stack.addSlice(current_image_processor);
 				ImagePlus sim_stack_plus = new ImagePlus("Stack", sim_stack);
 				montage = montager.makeMontage2(sim_stack_plus, SIMMAGES / 3, SIMMAGES / 3, 1.00, 1, SIMMAGES, 1, 0, false);
 				montage_image = ij_converter.createImage(montage.getProcessor(), mda_coords, metadata);
