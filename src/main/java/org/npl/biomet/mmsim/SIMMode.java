@@ -62,10 +62,10 @@ public class SIMMode{
 				CAMERA_WIDTH = mmc.getImageWidth();
 				System.out.println(CAMERA_HEIGHT);
 
-				ImageProcessor current_image_processor = ImageUtils.makeProcessor(mmc.getTaggedImage());
-				sim_stack = new ImageStack((int) CAMERA_WIDTH, (int) CAMERA_HEIGHT);
+//				ImageProcessor current_image_processor = ImageUtils.makeProcessor(mmc.getTaggedImage());
+				sim_stack = new ImageStack((int) CAMERA_WIDTH, (int) CAMERA_HEIGHT);	
 //				sim_stack.addSlice(current_image_processor);
-				mmc.startSequenceAcquisition(SIMMAGES - 1, 0, false);
+				mmc.startSequenceAcquisition(SIMMAGES, 0, false);
 				while (mmc.isSequenceRunning() || mmc.getRemainingImageCount() > 0) {
 					if (mmc.getRemainingImageCount() > 0) {
 						tImg = mmc.popNextTaggedImage();
